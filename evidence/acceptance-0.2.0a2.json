@@ -1,0 +1,28 @@
+{
+  "release": "0.2.0a2",
+  "recorded_at": "2026-11-26T14:51:57.237801+00:00",
+  "scope": "local synthetic acceptance, not production certification",
+  "platform": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "python": "3.14.6"
+  },
+  "source_sha256": "8103dccbf9701856ae407cf7e5c3e3d680b42b92a346756bdb4ebf1577f11c20",
+  "pytest_passed": 225,
+  "isolated_mtls_tests_passed": 18,
+  "wheel": {
+    "filename": "local_agent_runtime-0.2.0a2-py3-none-any.whl",
+    "sha256": "a7c7d0fbc516cd808c1b0d13146bbd598c8d6e3fdd10b401767e7cab57319cdd",
+    "entries": 86,
+    "rebuild_sha_match": true,
+    "installed_mac_and_container_byte_match": true
+  },
+  "sdk_acceptance": [
+    "SDK offline: actual wheel + MCP initialize/list/call + Docker isolation + role deny PASS",
+    "SDK broker: exact registered resource + unauthorized URL denied + unavailable gateway blocked PASS",
+    "Per-instance metadata ledger isolation and settlement PASS"
+  ],
+  "managed_container_cleanup": "pass",
+  "live_provider_or_account_tested": false,
+  "independent_review": "pending_for_this_release"
+}

@@ -1,0 +1,15 @@
+{
+  "instance_id": "sample-connected-research",
+  "role": {
+    "role": "research",
+    "operations": ["read_registered_resource"],
+    "network": "brokered_read",
+    "external_mutation": false
+  },
+  "image_id": null,
+  "broker": {
+    "mode": "synthetic_loopback",
+    "port": 18765,
+    "resources": ["sample"]
+  }
+}

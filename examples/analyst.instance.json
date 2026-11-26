@@ -1,0 +1,11 @@
+{
+  "instance_id": "sample-analyst",
+  "role": {
+    "role": "analyst",
+    "operations": ["offline_analyze", "offline_diagnostics"],
+    "network": "deny",
+    "external_mutation": false
+  },
+  "image_id": "sha256:REPLACE_WITH_REVIEWED_LOCAL_IMAGE_ID",
+  "broker": null
+}

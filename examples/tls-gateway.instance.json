@@ -1,0 +1,20 @@
+{
+  "instance_id": "sample-gateway-research",
+  "role": {
+    "role": "research",
+    "operations": ["read_registered_resource"],
+    "network": "brokered_read",
+    "external_mutation": false
+  },
+  "image_id": null,
+  "broker": {
+    "mode": "mutual_tls_gateway",
+    "port": 18443,
+    "resources": ["sample"],
+    "server_name": "gateway.example.invalid",
+    "pinned_ip": "192.0.2.1",
+    "ca_file": "/owner-selected/ca.crt",
+    "client_cert": "/owner-selected/client.crt",
+    "client_key": "/owner-selected/client.key"
+  }
+}

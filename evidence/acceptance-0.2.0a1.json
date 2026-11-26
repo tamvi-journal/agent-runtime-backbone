@@ -1,0 +1,28 @@
+{
+  "release": "0.2.0a1",
+  "date": "2026-11-26",
+  "scope": "local synthetic acceptance, not production certification",
+  "pytest_passed": 203,
+  "isolated_mtls_tests_passed": 9,
+  "wheel": {
+    "filename": "local_agent_runtime-0.2.0a1-py3-none-any.whl",
+    "sha256": "ea03e1263cd46f51a09f264c4bcb2b4b31be1c5cfeb8ed3c36cf84e636cfd0a5",
+    "entries": 86,
+    "installed_and_sdk_tested": true
+  },
+  "sdk_acceptance": [
+    "initialize",
+    "list_tools",
+    "offline_analyze",
+    "offline_diagnostics",
+    "out_of_role_denied",
+    "caller_network_override_denied",
+    "registered_broker_read",
+    "arbitrary_url_denied",
+    "gateway_unavailable_denied",
+    "per_instance_ledger"
+  ],
+  "managed_container_cleanup": "pass",
+  "live_provider_or_account_tested": false,
+  "independent_review": "pending"
+}
