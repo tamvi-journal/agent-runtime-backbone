@@ -1,102 +1,101 @@
-# Local Agent Runtime
+# Agent Runtime Backbone
 
-Shared agent backbone extracted from an operating local agent. This is
-an installable set of common runtime laws, boot templates, memory adapter
-and runtime modules, not a new inference engine.
+A shared, role-neutral operating scaffold extracted from an existing local
+agent. Keep your existing host, LLM, identity and memory. The backbone
+provides common runtime laws, boot templates, state and memory boundaries,
+monitor/mirror, effort allocator, verification, sleep/wake and worker
+contracts. It is not a replacement inference engine or an MCP-only service.
 
-**Start here:** [Shared backbone guide](docs/SHARED-BACKBONE.md).
-Copy the neutral templates under scaffold into each agent's workspace,
-keep identity/role/memory private, and use the existing host's cognition
-loop. The runtime spine is loaded by the host's boot mechanism. The
-previously reviewed execution subsystem is one backend; MCP is optional.
+**Start here:** [Installation guide](docs/INSTALL.md) and
+[AI installer instructions](AGENTS.md). See the
+[shared backbone guide](docs/SHARED-BACKBONE.md) for the architecture.
 
-## Install the scaffold
+## Required core and optional modules
 
-Use your existing agent host and model. Install this repo in a dedicated
-Python environment and copy the contents of scaffold/ into a new agent
-workspace; adapt the boot file to the host's actual startup mechanism.
-Do not replace an existing private identity or memory store.
+The shared laws and scaffold are the required foundation. The following four
+extensions are optional. Their source ships in the same Python package, but
+they are not automatically configured, registered, started or used. Core
+installation requires no Docker, gateway, MCP client or new activity journal.
 
-The cue adapter expects the existing Memory Core Python API
-(ConsumerBundle, ConsumerMemory, MemoryProfile). The external project
-is https://github.com/tamvi-journal/trajecta-identity-memory. Install a
-compatible owner-approved version and bind an existing initialized private
-database (0600); no seeds, credentials or default database are supplied.
-Run scripts/backbone_smoke.py in that environment for a synthetic
-packaging check before using the binding.
+| Module | What it adds | Trade-off / when to choose |
+|---|---|---|
+| Docker worker sandbox | OS-enforced isolation for registered offline workers | Requires a qualified Docker Engine and reviewed local image; adds resource overhead. Useful for isolated computation, not ordinary reasoning. Does not isolate the whole host/browser. |
+| mTLS read gateway | Authenticated, allowlisted access to registered read resources; no direct-origin fallback | Requires an approved gateway, certificates and maintenance. Not an IP-hiding mechanism or browser network boundary. |
+| MCP server + adapter | Optional stdio transport for registered execution operations | Adds a process and host configuration. Use if the existing host needs MCP; the backbone itself does not require it. |
+| SQLite activity ledger | Per-instance execution journal, including denied calls and interruption recovery | Adds local metadata storage and management. Not a new semantic memory system or proof of factual completion. |
 
-## Bounded execution subsystem (reviewed a3 baseline)
+**AI installers must ask the owner Yes or No for each module before enabling
+it.** Default: all off. The owner may decline all four and still use the
+core. Explain benefits, costs and dependencies; do not treat silence as
+consent.
 
-Role-neutral, local-first runtime scaffold for local agents, including Hermes.
-One shared candidate-audit kernel; owner-selected roles; independent state journals;
-OS-enforced offline workers and a narrowly scoped authenticated read gateway.
+The current bundled MCP executable requires the SQLite ledger. Useful MCP
+execution also needs a configured Docker worker or read-gateway backend.
+If selections conflict, explain and ask the owner which choice to change;
+never silently enable another module or bypass required journaling. The
+direct offline CLI requires Docker but not MCP or a new ledger. Direct
+Python service integration can omit the ledger. See the installation guide.
 
-**0.2.0a4 — shared scaffold export.** The unchanged bounded execution implementation was independently reviewed in a3; the additional boot/memory/policy files have a packaging smoke check. No full-host/browser containment certification.
+## Mandatory network and data law
 
-## Quick start
+[Canonical Runtime Spine, section 8](scaffold/canonical_runtime_spine.md#8-mandatory-network-and-data-boundary)
+requires owner-authorized network access, actual enforcement, prevention of
+accidental IP/data disclosure and fail-closed operation. The
+[boot adapter](scaffold/SOUL.md) requires this law at startup.
 
-Python 3.11+ on macOS/Linux, a qualified local Docker Engine (runc and required inspection contract) and a reviewed
-local Python image. A separate virtual environment is required because the
-legacy import namespace is named runtime.
+This law is **not an optional module**, even with all four extensions off.
+Reuse existing approved protection when appropriate. Do not run an operation
+requiring containment if that containment is absent, unavailable or
+unverified; never fall back to an unconfined route.
 
-    uv build --wheel --offline
-    uv venv .venv
-    uv pip install --no-deps --python .venv/bin/python dist/local_agent_runtime-0.2.0a4-py3-none-any.whl
+The tested enforcement is limited to registered offline Docker workers and
+the scoped read-gateway path. It does not certify whole-agent/browser IP
+containment. A gateway can observe its client's source IP. A prompt, tool
+allowlist, MCP server or successful connection alone is not proof of network
+containment. No service-restriction evasion or anonymity guarantee is provided.
 
-Copy an example instance config into an owner-controlled directory, replace the
-image placeholder with the reviewed immutable local image ID, and set file
-permissions to 0600. Do not commit actual configuration, credentials, keys,
-private memory, or the state directory.
+## Core installation
 
-For the local MCP server:
-
-    .venv/bin/local-agent-mcp --config /absolute/owner/instance.json --state-root /absolute/owner/state
-
-For Hermes, generate a config fragment instead of editing the live agent:
-
-    .venv/bin/local-agent-hermes-config --config /absolute/owner/instance.json --state-root /absolute/owner/state
-
-Merge the generated fragment only into a separately approved agent profile.
-This server uses legacy MCP stdio initialize/list/call; the local SDK acceptance
-uses MCP Python SDK 1.26.0. It does not expose HTTP, execute arbitrary code, or
-inherit the model's claimed identity as authorization.
+Use the existing agent host/model and a dedicated Python 3.11+ environment on
+macOS/Linux. Stage the neutral templates under scaffold/ in the agent's
+private workspace without replacing its identity, role or memory. The cue
+adapter uses the existing ConsumerMemory API from
+[Trajecta Identity Memory](https://github.com/tamvi-journal/trajecta-identity-memory).
+Bind an owner-approved compatible installation and private database. No
+private seeds, credentials or database are supplied. Follow the
+[installation guide](docs/INSTALL.md) before making changes.
 
 ## Architecture
 
-    owner config (instance, role, tool allowlist)
-       -> role-scoped MCP or Python service
-       -> role/argument enforcement + shared declaration and candidate gate
-       -> registered operation
-          -> Docker network=none worker, or
-          -> pinned mTLS read gateway with client resource authorization
-       -> candidate audit + advisory allocator/monitor
-       -> per-instance metadata ledger (including denied attempts)
+    existing agent host / existing LLM
+        + shared runtime scaffold loaded at instance boundary
+          -> state, memory, monitor/mirror, effort and verification contracts
+          -> mandatory operating and security laws
+          -> existing authorized tools and approved enforcement boundaries
+          -> optional execution extensions selected by the owner
 
-The Gate validates declarations and candidate evidence, not operating-system capabilities.
-The role-bound service enforces its operation registry and argument contracts.
-The gateway is a separate trust root. Runtime clients may use only the
-operator-configured endpoint and resource names; no arbitrary URLs or direct
-origin fallback. Registered handlers are reviewed developer code. The reference
-gateway and TLS tests use synthetic resources only. A real provider connector
-requires separate authorization and validation.
+The host owns its existing inference and action loop. Shipping helpers alone
+does not prove the host invokes them at every required seam. MCP is possible
+tool transport, not the backbone. No new cognitive runner or model
+replacement is required.
 
-Worker output is a candidate, not verified truth. No operation in this release
-auto-releases or claims independent completion. Existing state, sleep/wake and
-memory helpers remain portable; persistent semantic memory/provider migration is
-not included in the accepted execution path.
+## Acceptance scope
 
-## Boundaries
+Version 0.2.0a4 is the shared scaffold export. The bounded execution subsystem
+was independently reviewed in v0.2.0a3; the added scaffold and read-only Memory
+Core adapter received a synthetic packaging smoke check. That is not
+certification of the entire agent, host, model, arbitrary network access or
+production services.
 
-- Docker enforcement applies to containers launched by this runtime, not the
-  whole Hermes process, other MCP servers, host browsers or OS.
-- No network-enabled browser, real account, shell or external write is allowed
-  by the supplied tool registry. Disable or isolate all other host tools before
-  relying on this boundary; a configuration declaration alone is not proof.
-- The mTLS gateway transport is not a general VPN or proxy kill switch and
-  cannot certify a gateway's upstream egress or service compliance.
-- No private identities or history imported. The bundled governance library
-  retains its MIT notice. Private scaffold redistribution rights require
-  review before public publication.
+Worker output is candidate evidence. The Gate validates declarations and
+evidence, not OS capabilities. The ledger records invocation state, not
+independently verified truth. Extensions never elevate authority.
 
-See docs/ARCHITECTURE.md, docs/NETWORK-SECURITY.md, docs/RELEASE-0.2.0a3.md,
-and docs/INDEPENDENT-REVIEW.md.
+No private identity, memory database, credentials, original private Git
+history or live configuration is distributed. The bundled governance library
+retains its MIT notice. Public visibility does not grant a blanket new license
+over other upstream material.
+
+See [network security](docs/NETWORK-SECURITY.md),
+[bounded execution release notes](docs/RELEASE-0.2.0a3.md) and
+[independent review](docs/INDEPENDENT-REVIEW.md).

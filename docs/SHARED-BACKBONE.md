@@ -21,10 +21,18 @@ or migrates a database, and retrieves without access telemetry.
 The caller owns the instance binding and any memory writes. Private
 memory and work state are not part of this repository.
 
-MCP is optional tool transport. Do not replace the host's working model
-loop with the experimental v0.3 inference coordinator. Use the boot
-files at the instance boundary; helper functions alone are not proof
-that a host invokes or enforces them at every required seam.
+MCP is optional tool transport. Preserve the host's working model and
+inference loop. Use boot files at the instance boundary; helper functions
+alone are not proof that a host invokes or enforces them at every required
+seam.
+
+The four bundled execution extensions (Docker worker, mTLS gateway, MCP
+transport and SQLite activity ledger) are opt-in. Follow
+[INSTALL.md](INSTALL.md) and [AI installer instructions](../AGENTS.md);
+default to all off. The current MCP executable requires its activity
+ledger and a configured backend for useful operations. Ask the owner to
+resolve dependencies explicitly. The shared laws remain mandatory even
+with all extensions declined.
 
 ## Security law
 
