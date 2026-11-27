@@ -14,17 +14,26 @@ from pathlib import Path
 from runtime.offline_executor import DockerOfflineExecutor, IsolationError
 
 CANARY = """
-import socket
-with socket.socket() as s:
- s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
- s.bind(('0.0.0.0',8765)); s.listen(4); print('READY',flush=True)
+import select,socket
+with socket.socket() as tcp, socket.socket(socket.AF_INET,socket.SOCK_DGRAM) as udp:
+ tcp.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+ tcp.bind(('0.0.0.0',8765)); tcp.listen(4)
+ udp.bind(('0.0.0.0',8767))
+ print('READY',flush=True)
  while True:
-  c,a=s.accept()
-  with c:
-   c.settimeout(2)
-   if c.recv(64)==b'fixture':
-    print('peer='+a[0],flush=True)
-    c.sendall(b'fixture-ok')
+  for ready in select.select([tcp,udp],[],[],2)[0]:
+   if ready is tcp:
+    c,a=tcp.accept()
+    with c:
+     c.settimeout(2)
+     if c.recv(64)==b'fixture':
+      print('peer='+a[0],flush=True)
+      c.sendall(b'fixture-ok')
+   else:
+    data,a=udp.recvfrom(64)
+    if data==b'fixture':
+     print('unexpected_udp',flush=True)
+     udp.sendto(b'fixture-ok',a)
 """
 RELAY = """
 import socket,sys
@@ -43,15 +52,39 @@ with socket.socket() as s:
 """
 CLIENT = """
 import json,socket,sys,os
-def request(address,port):
+def tcp_request(address,port):
  try:
   with socket.create_connection((address,port),timeout=1.5) as s:
    s.sendall(b'fixture');return s.recv(64)==b'fixture-ok'
  except OSError:return False
+def udp_request(address,port):
+ try:
+  with socket.socket(socket.AF_INET,socket.SOCK_DGRAM) as s:
+   s.settimeout(1);s.sendto(b'fixture',(address,port))
+   return s.recvfrom(64)[0]==b'fixture-ok'
+ except OSError:return False
+def ipv6_route_available(kind):
+ try:
+  with socket.socket(socket.AF_INET6,kind) as s:
+   s.settimeout(1)
+   # Reserved documentation range; no external resolver or public probe.
+   if kind==socket.SOCK_STREAM:
+    return s.connect_ex(('2001:db8::1',8765,0,0))==0
+   s.connect(('2001:db8::1',8767,0,0));return True
+ except OSError:return False
 with open('/proc/net/route') as f:
  default=any(line.split()[1]=='00000000' for line in f.readlines()[1:] if line.strip())
-print(json.dumps({'direct':request(sys.argv[1],8765),'relay':request(sys.argv[2],8766),
- 'ipv4_default_route':default,'uid':os.getuid()}))
+try:
+ with open('/proc/net/ipv6_route') as f:
+  v6_default=any(line.split()[0]=='0'*32 and line.split()[1]=='00' and line.split()[-1]!='lo' for line in f if line.strip())
+except FileNotFoundError:v6_default=False
+# Do not send probe packets if the expected route boundary is absent.
+if default or v6_default:raise SystemExit(3)
+print(json.dumps({'direct':tcp_request(sys.argv[1],8765),'relay':tcp_request(sys.argv[2],8766),
+ 'direct_udp':udp_request(sys.argv[1],8767),
+ 'ipv4_default_route':default,'ipv6_default_route':v6_default,
+ 'ipv6_tcp_available':ipv6_route_available(socket.SOCK_STREAM),
+ 'ipv6_udp_route_available':ipv6_route_available(socket.SOCK_DGRAM),'uid':os.getuid()}))
 """
 LABEL = "org.agent-backbone.containment-fixture"
 
@@ -59,6 +92,8 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--image-id",required=True,help="Reviewed immutable local Python image ID")
     a=p.parse_args()
+    if not __debug__:
+        raise SystemExit("fixture requires active inspection assertions")
     runner=DockerOfflineExecutor(image_id=a.image_id)
     ident="backbone-fixture-"+uuid.uuid4().hex[:12]
     nets=[ident+"-client",ident+"-canary"]
@@ -126,17 +161,32 @@ def main():
             peer_ip=g["NetworkSettings"]["Networks"][nets[1]]["IPAddress"]
             create(names[2],nets[0],"import time;time.sleep(90)")
             start(names[2],[nets[0]])
-            def probe():
-                return json.loads(call("exec",names[2],"/usr/local/bin/python","-I","-c",CLIENT,canary_ip,relay_ip,timeout=8))
+            def probe(child=False):
+                args=["/usr/local/bin/python","-I","-c",CLIENT,canary_ip,relay_ip]
+                if child:
+                    args=["/usr/local/bin/python","-I","-c",
+                          "import subprocess,sys;raise SystemExit(subprocess.run(sys.argv[1:],env={}).returncode)",*args]
+                return json.loads(call("exec",names[2],*args,timeout=12))
+            expected={"direct":False,"relay":True,"direct_udp":False,
+                      "ipv4_default_route":False,"ipv6_default_route":False,
+                      "ipv6_tcp_available":False,"ipv6_udp_route_available":False,"uid":65534}
             healthy=probe()
-            assert healthy=={"direct":False,"relay":True,"ipv4_default_route":False,"uid":65534}, healthy
+            assert healthy==expected, healthy
+            child=probe(child=True)
+            assert child==expected, child
             call("stop","--time","1",names[1])
             failed=probe()
-            assert failed=={"direct":False,"relay":False,"ipv4_default_route":False,"uid":65534}, failed
+            expected["relay"]=False
+            assert failed==expected, failed
+            child_failed=probe(child=True)
+            assert child_failed==expected, child_failed
             logs=call("logs",names[0])
             peers=[line[5:] for line in logs.splitlines() if line.startswith("peer=")]
-            assert peers==[peer_ip], "unexpected canary receipts"
-            result.update({"healthy":healthy,"relay_stopped":failed,"canary_receipt_count":len(peers),
+            assert peers==[peer_ip,peer_ip], "unexpected canary receipts"
+            assert "unexpected_udp" not in logs.splitlines(), "unexpected UDP canary receipt"
+            result.update({"healthy":healthy,"child_healthy":child,"relay_stopped":failed,
+                           "child_relay_stopped":child_failed,"canary_receipt_count":len(peers),
+                           "direct_udp_receipts":0,"external_dns_tested":False,
                            "only_relay_peer_observed":True,"status":"PASS"})
         except (AssertionError,IsolationError,RuntimeError,ValueError,KeyError,OSError) as e:
             failure=type(e).__name__

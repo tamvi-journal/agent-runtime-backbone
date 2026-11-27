@@ -293,6 +293,12 @@ destination traffic. No direct host fallback, arbitrary browser attachment,
 or permission escalation. If required containment is absent, cannot be
 verified, or fails, do not start or continue that operation.
 
+For any operation requiring protected egress, the host must enforce the
+owner-approved route outside the agent's control. A route failure must not
+permit a direct connection. Treat source-network privacy as unverified until
+independent observations establish the approved boundary; if that boundary
+is unavailable or unqualified, hold the protected operation.
+
 A prompt, proxy configuration, declared tool policy or a successful
 connection is not proof of containment. Verify the actual approved backend
 and its scope, including subprocesses and failure paths. Never claim IP

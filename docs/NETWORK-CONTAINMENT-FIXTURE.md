@@ -23,7 +23,7 @@ route. The script attempts cleanup only of the exact labelled resources
 it creates, never prunes other resources. If cleanup cannot be confirmed,
 its scoped identifier is emitted for owner inspection.
 
-## Observed local experiment
+## Observed local experiment (extended fixture)
 
 Docker server 29.5.3 on macOS (Linux container environment), using an
 already-present reviewed Python 3.11.15 slim image:
@@ -31,11 +31,13 @@ already-present reviewed Python 3.11.15 slim image:
 | Observation | Result |
 |---|---|
 | Both internal isolated networks inspected | PASS |
-| Client non-root and no IPv4 default route | PASS |
-| Direct TCP to synthetic canary | Blocked |
-| Registered relay path | One successful fixed-message response |
-| Canary independent receipts | Exactly one, source matched relay |
-| Relay stopped | Relay request and direct canary request both blocked |
+| Client and child non-root; no IPv4 or IPv6 default route | PASS |
+| Direct TCP and UDP to synthetic canary | Blocked; zero direct UDP receipts |
+| IPv6 TCP/UDP to reserved documentation range | No connection/route available |
+| Child process with empty inherited environment | Same enforced route boundary |
+| Registered relay path | Two successful fixed-message responses (client and child) |
+| Canary independent receipts | Exactly two, both from relay |
+| Relay stopped | Relay request, direct TCP and UDP remain blocked for client and child |
 | Scoped container and network cleanup | Confirmed |
 
 The local CLI's default Docker configuration produced a permission warning
@@ -43,10 +45,15 @@ during read-only image lookup. The fixture uses the existing runtime's
 explicit local daemon binding and isolated temporary Docker configuration;
 it never opens that private Docker configuration file.
 
-## Remaining release gate
+See [the generated receipt](../evidence/containment-fixture.json). The
+extended fixture was author-run; it was not part of the independent
+source-parity review.
+
+## Remaining deployment gate
 
 This result is intentionally narrow. It does not establish real protected
-egress, public IP privacy, DNS/UDP/IPv6/WebRTC isolation, browser startup,
+egress, public IP privacy, external DNS or WebRTC isolation, comprehensive
+UDP/IPv6 isolation, browser startup,
 host switching, or safe handling of external connectors. The lab cannot
 certify a VM, host, account or browser outside its two synthetic networks.
 

@@ -1,0 +1,56 @@
+{
+  "browser_tested": false,
+  "canary_receipt_count": 2,
+  "child_healthy": {
+    "direct": false,
+    "direct_udp": false,
+    "ipv4_default_route": false,
+    "ipv6_default_route": false,
+    "ipv6_tcp_available": false,
+    "ipv6_udp_route_available": false,
+    "relay": true,
+    "uid": 65534
+  },
+  "child_relay_stopped": {
+    "direct": false,
+    "direct_udp": false,
+    "ipv4_default_route": false,
+    "ipv6_default_route": false,
+    "ipv6_tcp_available": false,
+    "ipv6_udp_route_available": false,
+    "relay": false,
+    "uid": 65534
+  },
+  "cleanup_confirmed": true,
+  "direct_udp_receipts": 0,
+  "external_dns_tested": false,
+  "external_network_tested": false,
+  "fixture_only": true,
+  "healthy": {
+    "direct": false,
+    "direct_udp": false,
+    "ipv4_default_route": false,
+    "ipv6_default_route": false,
+    "ipv6_tcp_available": false,
+    "ipv6_udp_route_available": false,
+    "relay": true,
+    "uid": 65534
+  },
+  "isolated_internal_networks_verified": true,
+  "only_relay_peer_observed": true,
+  "relay_stopped": {
+    "direct": false,
+    "direct_udp": false,
+    "ipv4_default_route": false,
+    "ipv6_default_route": false,
+    "ipv6_tcp_available": false,
+    "ipv6_udp_route_available": false,
+    "relay": false,
+    "uid": 65534
+  },
+  "status": "PASS",
+  "recorded_at": "2026-11-27T01:13:54.056235+00:00",
+  "fixture_sha256": "68c3f01928a0595b0d4d9a1bf0a54182184f0b53137a38ccd99a77911af4d38e",
+  "scope": "isolated synthetic networks; no public destination, browser, live account or production egress",
+  "review": "author-run only; not included in independent source-parity acceptance"
+}

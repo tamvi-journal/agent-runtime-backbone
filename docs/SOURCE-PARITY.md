@@ -46,3 +46,13 @@ application-specific integrations are not cloned. This is a portable
 mechanism export, not byte-identical replication of all original instance
 files. No source databases, account information, credentials, transcripts
 or private Git history are distributed.
+
+Independent review (candidate 96751dd): GO for shared scaffold.
+Linux Python 3.11: 536/536 tests, all runtime imports pass, offline wheel
+125 entries. Source-specific private checkout comparison remained author-only.
+No network/browser certification or live integration is implied. Author
+full acceptance and the independent review scope are recorded in
+[evidence/acceptance-0.2.0a5.json](../evidence/acceptance-0.2.0a5.json).
+The Memory Core 0.4.0 compatible checkout also passed the synthetic
+read-only cue-recall smoke. Full version-specific integration is still
+owned by each consuming instance.

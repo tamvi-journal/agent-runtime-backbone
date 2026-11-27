@@ -49,8 +49,9 @@ Reuse existing approved protection when appropriate. Do not run an operation
 requiring containment if that containment is absent, unavailable or
 unverified; never fall back to an unconfined route.
 
-The tested enforcement is limited to registered offline Docker workers and
-the scoped read-gateway path. It does not certify whole-agent/browser IP
+The tested execution enforcement is limited to registered offline Docker workers and
+the scoped read-gateway path. A separate [network containment lab](docs/NETWORK-CONTAINMENT-FIXTURE.md)
+verifies a synthetic fail-closed topology. It is not a production extension. It does not certify whole-agent/browser IP
 containment. A gateway can observe its client's source IP. A prompt, tool
 allowlist, MCP server or successful connection alone is not proof of network
 containment. No service-restriction evasion or anonymity guarantee is provided.
@@ -82,7 +83,7 @@ replacement is required.
 
 ## Acceptance scope
 
-Version 0.2.0a5 is the source-parity candidate; a4 was the initial shared scaffold export. The bounded execution subsystem
+Version 0.2.0a5 is the independently reviewed shared scaffold release; a4 was the initial export. The bounded execution subsystem
 was independently reviewed in v0.2.0a3; the added scaffold and read-only Memory
 Core adapter received a synthetic packaging smoke check. That is not
 certification of the entire agent, host, model, arbitrary network access or
@@ -98,5 +99,6 @@ retains its MIT notice. Public visibility does not grant a blanket new license
 over other upstream material.
 
 See [network security](docs/NETWORK-SECURITY.md),
+[source-parity acceptance](docs/STATUS.md),
 [bounded execution release notes](docs/RELEASE-0.2.0a3.md) and
 [independent review](docs/INDEPENDENT-REVIEW.md).

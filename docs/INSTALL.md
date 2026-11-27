@@ -193,6 +193,22 @@ does not cover the whole host/browser. Report unverified paths and do
 not use them under a claim of protection. No service-restriction evasion
 or account concealment is authorized.
 
+### Protected connected workloads
+
+The four bundled extensions remain opt-in. For a workload that requires
+source-network privacy, the installer must ask whether an existing approved
+and independently qualified network enforcement boundary is available.
+Do not silently choose, provision or change an egress provider, system route,
+firewall, browser, account or live service. The owner supplies the
+deployment-specific boundary and approves the permitted traffic.
+
+The [isolated network lab](NETWORK-CONTAINMENT-FIXTURE.md) is executable
+test material, not a production connected/browser backend. Its successful
+receipt is not an authorization to run protected Internet operations.
+Without a qualified boundary on the actual execution environment, leave
+such operations blocked. Reuse established isolation/network protection
+rather than implementing an agent-controlled route switch.
+
 ## 5. Installation receipt
 
 Report the exact pinned revision, environment and actual core load path;
