@@ -8,7 +8,8 @@ contracts. It is not a replacement inference engine or an MCP-only service.
 
 **Start here:** [Installation guide](docs/INSTALL.md) and
 [AI installer instructions](AGENTS.md). See the
-[shared backbone guide](docs/SHARED-BACKBONE.md) for the architecture.
+[shared backbone guide](docs/SHARED-BACKBONE.md) for the architecture and
+[source-parity audit](docs/SOURCE-PARITY.md) for the source extraction boundary.
 
 ## Required core and optional modules
 
@@ -81,7 +82,7 @@ replacement is required.
 
 ## Acceptance scope
 
-Version 0.2.0a4 is the shared scaffold export. The bounded execution subsystem
+Version 0.2.0a5 is the source-parity candidate; a4 was the initial shared scaffold export. The bounded execution subsystem
 was independently reviewed in v0.2.0a3; the added scaffold and read-only Memory
 Core adapter received a synthetic packaging smoke check. That is not
 certification of the entire agent, host, model, arbitrary network access or

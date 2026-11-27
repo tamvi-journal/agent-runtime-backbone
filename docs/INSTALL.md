@@ -52,7 +52,7 @@ existing environment. For a host with uv and the cached build backend:
 
     uv build --wheel --offline
     uv venv .venv
-    uv pip install --no-deps --python .venv/bin/python dist/local_agent_runtime-0.2.0a4-py3-none-any.whl
+    uv pip install --no-deps --python .venv/bin/python dist/local_agent_runtime-0.2.0a5-py3-none-any.whl
 
 Run from the cloned repository root. If .venv already belongs to another
 project, use a different private environment. Missing prerequisites or
@@ -93,6 +93,23 @@ Configure the actual approved interpreter and private memory binding in
 the boot instructions. Retrieval is candidate evidence, never truth or
 authority. Report a missing or incompatible binding rather than claiming
 continuity. No model or cognition migration is needed.
+
+### Existing work and skill memory
+
+The portable source Work Memory, Skill Evolution and state-query helpers are
+included. Do not replace the host's existing equivalent mechanisms. The
+work-memory hook is a candidate-context adapter, not a security gate: only
+register it if the owner selects that integration and supplies a private
+per-instance database. It requires an absolute AGENT_WORK_MEMORY_DB path in
+an owner-only directory; no database or hook is activated by installation.
+Its material deltas remain candidate work history. The skill store requires
+a trusted verifier receipt for pointer promotion. Neither is the optional
+SQLite execution activity ledger. No source identity profile, seed, skill
+artifact, task history or account-specific integration is included.
+
+Use runtime/operator_ux/generate_task_index.py with explicit --task-runs and
+--output private paths if a local read-only task index is desired. It is not
+an action surface.
 
 ## 3. Enable only selected extensions
 

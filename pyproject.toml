@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "local-agent-runtime"
-version = "0.2.0a4"
+version = "0.2.0a5"
 description = "Role-neutral local agent runtime with bounded governance and offline execution"
 requires-python = ">=3.11"
 dependencies = []
@@ -22,7 +22,7 @@ dev = ["pytest>=8"]
 packages = ["src/agent_audit_kit", "runtime"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"licenses/agent-audit-kit-MIT.txt" = "local_agent_runtime-0.2.0a4.dist-info/licenses/agent-audit-kit-MIT.txt"
+"licenses/agent-audit-kit-MIT.txt" = "local_agent_runtime-0.2.0a5.dist-info/licenses/agent-audit-kit-MIT.txt"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

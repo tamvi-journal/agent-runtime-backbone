@@ -13,13 +13,17 @@ identifiers removed. The runtime package retains the portable original
 helpers and the independently reviewed bounded execution subsystem.
 The original security, worker envelope and evidence helpers are
 included as policy/validation helpers, not as unrestricted execution.
+The restored source worker chain performs scoped local repo reads; it is not
+a networked shell or OS sandbox. See [SOURCE-PARITY.md](SOURCE-PARITY.md).
 
 Memory recall uses the existing external Memory Core library via its
 ConsumerMemory API. The adapter takes an explicitly selected private
 database and generic profile, ships no seed records, never initializes
 or migrates a database, and retrieves without access telemetry.
 The caller owns the instance binding and any memory writes. Private
-memory and work state are not part of this repository.
+memory and work state are not part of this repository. The source work-memory
+and skill-evolution mechanisms are retained as libraries with no automatic
+initialization or host hook registration.
 
 MCP is optional tool transport. Preserve the host's working model and
 inference loop. Use boot files at the instance boundary; helper functions

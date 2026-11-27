@@ -1,12 +1,11 @@
-# Shared backbone export
+# Shared backbone source-parity candidate
 
-This source distribution reuses the existing operating scaffold and
-portable runtime; it does not introduce another inference engine.
-The a3 execution subsystem retains its prior independent review.
-The additional a4 export is checked for neutralization, imports and
-bounded read-only recall against the existing Memory Core API.
-Historical a3 receipts are not new a4 whole-product acceptance.
+The existing a3 bounded execution implementation retains its prior
+independent review. Initial a4 export has been expanded to preserve missing
+portable source mechanisms without a new inference loop. Source parity
+candidate a5 has author regression evidence; the source agent and its
+configuration have not been changed. See SOURCE-PARITY.md.
 
-Network law is mandatory; actual enforcement is available only for
+Network law is mandatory. Actual enforcement is available only for
 the qualified bounded worker/read-gateway paths. Full host/browser
-egress containment is not included or certified.
+egress containment is not certified. No live integration is implied.

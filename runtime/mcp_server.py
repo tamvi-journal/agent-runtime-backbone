@@ -11,7 +11,7 @@ from pathlib import Path
 from runtime.instance import load_instance,Ledger
 from runtime.service import AgentService
 
-VERSION="0.2.0a4"
+VERSION="0.2.0a5"
 SUPPORTED=("2024-11-05","2025-03-26","2025-06-18","2025-11-25")
 MAX_LINE=65536
 
