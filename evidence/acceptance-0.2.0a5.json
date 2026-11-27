@@ -15,7 +15,9 @@
     "sha256": "28fbb402c6f122a2a8d9707f707773a201b861368b2c8eafa05fadd12e1b4088",
     "entries": 125,
     "rebuild_sha_match": true,
-    "installed_mac_and_container_byte_match": true
+    "installed_mac_and_container_byte_match": true,
+    "independent_linux_sha256": "28fbb402c6f122a2a8d9707f707773a201b861368b2c8eafa05fadd12e1b4088",
+    "independent_sha_match": true
   },
   "sdk_acceptance": [
     "SDK offline: actual wheel + MCP initialize/list/call + Docker isolation + role deny PASS",
@@ -27,5 +29,5 @@
   "independent_review": "GO_for_shared_scaffold_at_96751dd_only",
   "tested_git_base": "5de711f",
   "reviewed_package_base": "96751dd",
-  "independent_review_scope": "Independent reviewer: Linux Python 3.11, 536 tests, all runtime imports pass, wheel 125 entries and matching reported SHA-256 prefix 28fbb402; original private source not independently accessible"
+  "independent_review_scope": "Independent reviewer: Linux Python 3.11, 536 tests, all runtime imports pass, offline wheel 125 entries, full SHA-256 matches author wheel; original private source not independently accessible"
 }

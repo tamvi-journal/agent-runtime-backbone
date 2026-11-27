@@ -6,9 +6,8 @@ all runtime imports succeeded, offline wheel build with 125 entries.
 The original private checkout was not independently accessible; the
 source comparison is author evidence. The author acceptance on 5de711f
 also passed 536 tests, 19 isolated mTLS tests, reproducible wheel,
-installed-wheel byte checks, SDK/Docker and ledger checks. The wheel
-SHA-256 prefix reported independently matches; full independent hash
-comparison has not been recorded.
+installed-wheel byte checks, SDK/Docker and ledger checks. The independently built Linux wheel has an identical full SHA-256
+to the author-built macOS wheel.
 
 See SOURCE-PARITY.md, the a5 receipt and the extended containment fixture
 receipt. The existing a3 bounded execution implementation retains its
