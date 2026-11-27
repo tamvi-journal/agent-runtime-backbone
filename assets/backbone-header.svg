@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Runtime Backbone</title>
+  <desc id="desc">Tam Vi Journal's shared runtime foundation, illustrated as connected concentric runtime layers.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#070b17"/><stop offset=".6" stop-color="#101c30"/><stop offset="1" stop-color="#161528"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#f5d994"/><stop offset=".5" stop-color="#9ce3c8"/><stop offset="1" stop-color="#61c9f5"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#73e1d5" stop-opacity=".2"/><stop offset="1" stop-color="#73e1d5" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#8293ba" stroke-opacity=".075"/></pattern>
+  </defs>
+  <rect x="1" y="1" width="1278" height="398" rx="28" fill="url(#bg)" stroke="#34445c"/>
+  <rect x="2" y="2" width="1276" height="396" rx="26" fill="url(#grid)"/>
+  <ellipse cx="1005" cy="203" rx="270" ry="192" fill="url(#halo)"/>
+  <g fill="none" stroke="#7396ae" stroke-opacity=".24">
+    <circle cx="1004" cy="204" r="140"/>
+    <circle cx="1004" cy="204" r="115"/>
+    <path d="M850 204H1158M1004 50V358M896 96L1112 312M1112 96L896 312" stroke-dasharray="3 7"/>
+    <ellipse cx="1004" cy="204" rx="154" ry="57" transform="rotate(-32 1004 204)"/>
+    <ellipse cx="1004" cy="204" rx="154" ry="57" transform="rotate(32 1004 204)"/>
+  </g>
+  <g fill="#111f31" stroke="url(#accent)" stroke-width="1.8">
+    <path d="M1004 116L1092 166L1092 241L1004 291L916 241L916 166Z" opacity=".8"/>
+    <path d="M1004 146L1064 180L1064 226L1004 261L944 226L944 180Z" fill="#132a38"/>
+    <path d="M1004 172L1038 192V215L1004 235L970 215V192Z" fill="#183544"/>
+  </g>
+  <g fill="url(#accent)">
+    <circle cx="1004" cy="64" r="5"/><circle cx="1144" cy="204" r="5"/><circle cx="1004" cy="344" r="5"/><circle cx="864" cy="204" r="5"/>
+    <circle cx="1004" cy="116" r="4"/><circle cx="1092" cy="166" r="4"/><circle cx="1092" cy="241" r="4"/><circle cx="1004" cy="291" r="4"/><circle cx="916" cy="241" r="4"/><circle cx="916" cy="166" r="4"/>
+    <circle cx="1004" cy="204" r="8"/>
+  </g>
+  <g fill="#a5b9cc" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="1.9" font-weight="bold">
+    <text x="1004" y="42" text-anchor="middle">MONITOR</text>
+    <text x="1175" y="208" text-anchor="middle">GATE</text>
+    <text x="1004" y="369" text-anchor="middle">MEMORY</text>
+    <text x="824" y="208" text-anchor="middle">STATE</text>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="63" y="58" width="206" height="31" rx="15" fill="#172638" stroke="#35475d"/>
+    <circle cx="82" cy="73.5" r="4" fill="#e6d496"/>
+    <text x="95" y="78" font-size="11.5" font-weight="bold" letter-spacing="2.1" fill="#d8e2ec">TAM VI JOURNAL</text>
+    <text x="62" y="163" font-size="56" font-weight="bold" fill="#f3f5fa" letter-spacing="-1.5">Agent Runtime</text>
+    <text x="62" y="229" font-size="64" font-weight="bold" fill="url(#accent)" letter-spacing="-1.5">Backbone</text>
+    <path d="M65 251H670" stroke="#4b647c" stroke-opacity=".65"/>
+    <text x="65" y="283" font-size="19" fill="#c4d0e0">Shared laws. Private identity. Bounded execution.</text>
+    <text x="65" y="313" font-size="16" fill="#8fa5ba">Keep your agent. Give its runtime a common foundation.</text>
+    <g font-size="12" font-weight="bold" fill="#bde6dc">
+      <rect x="65" y="338" width="120" height="29" rx="7" fill="#142b30" stroke="#355c5b"/>
+      <text x="125" y="357" text-anchor="middle">ROLE-NEUTRAL</text>
+      <rect x="195" y="338" width="105" height="29" rx="7" fill="#142b30" stroke="#355c5b"/>
+      <text x="247.5" y="357" text-anchor="middle">LOCAL-FIRST</text>
+      <rect x="310" y="338" width="129" height="29" rx="7" fill="#142b30" stroke="#355c5b"/>
+      <text x="374.5" y="357" text-anchor="middle">SECURITY LAWS</text>
+    </g>
+  </g>
+</svg>

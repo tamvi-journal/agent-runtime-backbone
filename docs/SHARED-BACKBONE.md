@@ -55,8 +55,9 @@ seeds, credentials, transcript, original private Git history, or live
 configuration is imported. The bundled governance library retains its
 MIT notice. The external Memory Core project is separately licensed.
 
-The Memory Core implementation is maintained separately in the public
-trajecta-identity-memory project (https://github.com/tamvi-journal/trajecta-identity-memory).
-The local extraction smoke used the existing installed Memory Core API;
+The maintainer's separate Memory Core implementation is currently private;
+public consumers must supply a compatible implementation they are authorized
+to access or retain their host's existing memory integration. The local
+extraction smoke used the existing installed Memory Core API;
 compatibility with a different installed version is an integration concern,
 not a reason to re-test the original agent.

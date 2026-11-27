@@ -78,9 +78,10 @@ does not prove runtime integration.
 
 Reuse the instance's compatible Memory Core connection. The supplied
 adapter expects ConsumerBundle, ConsumerMemory and MemoryProfile from
-the separate project:
-https://github.com/tamvi-journal/trajecta-identity-memory.
-Use an owner-approved compatible version. The adapter expects an existing
+a separately supplied compatible implementation. The maintainer's separate
+memory implementation is currently private, so do not assume access or
+attempt to obtain it without authorization. Reuse the host's existing
+memory mechanism or an owner-approved compatible implementation. The adapter expects an existing
 initialized private database with mode 0600; it ships no seeds, initializes
 no database and does not migrate one. Do not copy another agent's database.
 
